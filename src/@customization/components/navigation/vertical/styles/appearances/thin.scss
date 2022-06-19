@@ -1,0 +1,97 @@
+/* Variables */
+$customization-vertical-navigation-thin-width: 80;
+
+customization-vertical-navigation {
+
+    /* Thin appearance overrides */
+    &.customization-vertical-navigation-appearance-thin {
+        width: #{$customization-vertical-navigation-thin-width}px;
+        min-width: #{$customization-vertical-navigation-thin-width}px;
+        max-width: #{$customization-vertical-navigation-thin-width}px;
+
+        /* Left positioned */
+        &.customization-vertical-navigation-position-left {
+
+            &.customization-vertical-navigation-mode-side {
+                margin-left: -#{$customization-vertical-navigation-thin-width}px;
+            }
+
+            &.customization-vertical-navigation-opened {
+                margin-left: 0;
+            }
+        }
+
+        /* Right positioned */
+        &.customization-vertical-navigation-position-right {
+
+            &.customization-vertical-navigation-mode-side {
+                margin-right: -#{$customization-vertical-navigation-thin-width}px;
+            }
+
+            &.customization-vertical-navigation-opened {
+                margin-right: 0;
+            }
+
+            .customization-vertical-navigation-aside-wrapper {
+                left: auto;
+                right: #{$customization-vertical-navigation-thin-width}px;
+            }
+        }
+
+        /* Wrapper */
+        .customization-vertical-navigation-wrapper {
+
+            /* Content */
+            .customization-vertical-navigation-content {
+
+                > customization-vertical-navigation-aside-item,
+                > customization-vertical-navigation-basic-item {
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 64px;
+                    min-height: 64px;
+                    max-height: 64px;
+                    padding: 0 16px;
+
+                    .customization-vertical-navigation-item-wrapper {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        .customization-vertical-navigation-item {
+                            justify-content: center;
+                            padding: 12px;
+                            border-radius: 4px;
+
+                            .customization-vertical-navigation-item-icon {
+                                margin: 0;
+                            }
+
+                            .customization-vertical-navigation-item-arrow,
+                            .customization-vertical-navigation-item-badge-content,
+                            .customization-vertical-navigation-item-title-wrapper {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                > customization-vertical-navigation-collapsable-item {
+                    display: none
+                }
+
+                > customization-vertical-navigation-group-item {
+
+                    > .customization-vertical-navigation-item-wrapper {
+                        display: none
+                    }
+                }
+            }
+        }
+
+        /* Aside wrapper */
+        .customization-vertical-navigation-aside-wrapper {
+            left: #{$customization-vertical-navigation-thin-width}px;
+        }
+    }
+}
