@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { customizationAnimations } from '@customization/animations';
 import { CustomizationAlertType } from '@customization/components/alert';
+import { StorageService } from 'app/services/storage.service';
 
 @Component({
     selector: 'app-login',
@@ -29,7 +31,9 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _storageService: StorageService,
+        private router: Router
     ) { }
 
     // -----------------------------------------------------------------------------------------------------
@@ -83,8 +87,11 @@ export class LoginComponent implements OnInit {
 
                 // Show the alert
                 this.showAlert = true;
-            } else {
 
+                this._changeDetectorRef.markForCheck();
+            } else {
+                this._storageService.saveAuthUser(this.logInForm.value);
+                this.router.navigateByUrl('/employees/list');
             }
         }, 800);
 

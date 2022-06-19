@@ -7,9 +7,7 @@ import { StorageService } from './storage.service';
     providedIn: 'root',
 })
 export class AuthService {
-    onTokenChange = new BehaviorSubject<any>('');
-    onUserChange = new BehaviorSubject<any>('');
-    verificationChange = new BehaviorSubject<any>(null);
+    onUserChange = new BehaviorSubject<any>(null);
 
     constructor(
         private _storageService: StorageService,
@@ -21,8 +19,10 @@ export class AuthService {
             const authUser = this._storageService.getAuthUser();
 
             if (authUser) {
+                this.onUserChange.next(authUser);
                 resolve(authUser);
             } else {
+                this.onUserChange.next(null);
                 resolve(null);
             }
         });
