@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { customizationAnimations } from '@customization/animations';
 import { CustomizationAlertType } from '@customization/components/alert';
+import { EmployeeService } from 'app/services/employee.service';
+import { SnackBarService } from 'app/services/snackbar.service';
 import { StorageService } from 'app/services/storage.service';
 
 @Component({
@@ -33,6 +35,8 @@ export class LoginComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _storageService: StorageService,
+        private _snackBarService: SnackBarService,
+        private _employeeService: EmployeeService,
         private router: Router
     ) { }
 
@@ -90,8 +94,12 @@ export class LoginComponent implements OnInit {
 
                 this._changeDetectorRef.markForCheck();
             } else {
+                if (!this._employeeService.employees) {
+                    this._employeeService.initData();
+                }
                 this._storageService.saveAuthUser(this.logInForm.value);
-                this.router.navigateByUrl('/employees/list');
+                this.router.navigateByUrl('/employee');
+                this._snackBarService.presentSnackBar('You are logged in successfully!');
             }
         }, 800);
 

@@ -1,0 +1,238 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <mat-drawer-container class="flex-auto h-full bg-card dark:bg-transparent">
+
+        <mat-drawer class="w-full sm:w-128 dark:bg-gray-900" mode="over" [opened]="false" [position]="'end'"
+            [disableClose]="true" #matDrawer>
+            <router-outlet></router-outlet>
+        </mat-drawer>
+
+        <mat-drawer-content class="flex flex-col">
+            <ng-container *transloco="let t">
+
+                <div
+                    class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+                    <!-- Header -->
+                    <div
+                        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+
+                        <!-- Loader -->
+                        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                        </div>
+
+                        <div class="flex flex-row">
+                            <div class="flex flex-col justify-center">
+                                <!-- Title -->
+                                <div class="text-4xl font-extrabold tracking-tight mr-2">{{t('master-employee')}}</div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                            <!-- Search -->
+                            <div
+                                class="flex flex-row p-2 rounded-xl bg-gray-200 dark:bg-gray-700 min-w-44 sm:min-w-44 md:min-w-64">
+                                <mat-icon class="icon-size-5 mr-2" svgIcon="heroicons_solid:search"></mat-icon>
+                                <input [formControl]="searchInputControl" class="w-full" [autocomplete]="'off'"
+                                    placeholder="Search employee" (keyup)="detectSearch()">
+                                <mat-icon class="icon-size-5 ml-2" svgIcon="heroicons_solid:x" (click)="clearSearch()"
+                                    [ngClass]="(searchInputControl.value === null || searchInputControl.value === '') ? 'invisible' : 'visible'">
+                                </mat-icon>
+                            </div>
+                            <!-- Add product button -->
+                            <button class="ml-4" mat-flat-button [color]="'primary'" (click)="createEmployee()">
+                                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                                <span class="ml-2 mr-1">Add</span>
+                            </button>
+
+                            <button mat-icon-button [matMenuTriggerFor]="options" class="ml-4">
+                                <mat-icon svgIcon="heroicons_solid:dots-vertical"></mat-icon>
+                            </button>
+                            <mat-menu [xPosition]="'before'" #options="matMenu">
+                                <button mat-menu-item (click)="searchChanged()">
+                                    <span class="flex items-center">
+                                        <mat-icon svgIcon="mat_solid:refresh"></mat-icon>
+                                        <span class="ml-3">Refresh</span>
+                                    </span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+
+                    <ng-container *ngIf="showNotification && notificationType === 'edit'">
+                        <customization-alert [type]="'warning'" [dismissible]="true" class="mt-8">
+                            <span customizationAlertTitle>Edit Notification Title</span>
+                            This is edit notification
+                        </customization-alert>
+                    </ng-container>
+
+                    <ng-container *ngIf="showNotification && notificationType === 'delete'">
+                        <customization-alert [type]="'error'" [dismissible]="true" class="mt-8">
+                            <span customizationAlertTitle>Delete Notification Title</span>
+                            This is delete notification
+                        </customization-alert>
+                    </ng-container>
+
+                    <!-- Main -->
+                    <div class="flex flex-auto overflow-hidden">
+                        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                            <ng-container *ngIf="employees && employees !== 'error'">
+                                <ng-container *ngIf="employees.length > 0; else noEmployees">
+                                    <div class="grid">
+                                        <!-- Header -->
+                                        <div class="flex flex-row w-full z-10 sticky top-0 gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black"
+                                            matSort matSortDisableClear [matSortActive]="orderBy"
+                                            [matSortDirection]="sort" (matSortChange)="sortChanged($event)">
+                                            <div [mat-sort-header]="'username'" class="w-full">
+                                                Username
+                                            </div>
+                                            <div [mat-sort-header]="'first_name'" class="w-full">
+                                                First Name
+                                            </div>
+                                            <div [mat-sort-header]="'last_name'" class="w-full">
+                                                Last Name
+                                            </div>
+                                            <div [mat-sort-header]="'email'" class="w-full hidden sm:hidden md:block">
+                                                Email
+                                            </div>
+                                            <div [mat-sort-header]="'birth_date'"
+                                                class="w-full hidden sm:hidden md:block">
+                                                Birth Date
+                                            </div>
+                                            <div [mat-sort-header]="'basic_salary'"
+                                                class="w-full hidden sm:hidden md:block">
+                                                Basic Salary
+                                            </div>
+                                            <div [mat-sort-header]="'status'" class="w-full hidden sm:hidden md:block">
+                                                Status
+                                            </div>
+                                            <div [mat-sort-header]="'group'" class="w-full hidden sm:hidden md:block">
+                                                Group
+                                            </div>
+                                            <div [mat-sort-header]="'description'"
+                                                class="w-full hidden sm:hidden md:block">
+                                                Description
+                                            </div>
+                                            <div class="w-full"></div>
+                                            <div class="w-full"></div>
+                                        </div>
+
+                                        <!-- Rows -->
+                                        <ng-container *ngFor="let employee of employees; trackBy: trackByFn">
+                                            <div matRipple (click)="detailEmployee(employee)"
+                                                class="cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-100 flex flex-row w-full items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+                                                <div class="truncate w-full">
+                                                    {{ employee.username }}
+                                                </div>
+
+                                                <div class="truncate w-full">
+                                                    {{ employee.first_name }}
+                                                </div>
+
+                                                <div class="truncate w-full">
+                                                    {{ employee.last_name }}
+                                                </div>
+
+                                                <div class="truncate w-full hidden sm:hidden md:block">
+                                                    {{ employee.email }}
+                                                </div>
+
+                                                <div class="truncate w-full hidden sm:hidden md:block">
+                                                    {{ employee.birth_date }}
+                                                </div>
+
+                                                <div class="truncate w-full hidden sm:hidden md:block">
+                                                    {{ employee.basic_salary }}
+                                                </div>
+
+                                                <div class="truncate w-full hidden sm:hidden md:block">
+                                                    {{ employee.status }}
+                                                </div>
+
+                                                <div class="truncate w-full hidden sm:hidden md:block">
+                                                    {{ employee.group }}
+                                                </div>
+
+                                                <div class="truncate w-full hidden sm:hidden md:block">
+                                                    {{ employee.description  }}
+                                                </div>
+
+                                                <div class="w-full">
+                                                    <button class="text-sm bg-yellow-500 text-white" mat-flat-button
+                                                        (click)="editNotification()">
+                                                        Edit
+                                                    </button>
+                                                </div>
+                                                <div class="w-full">
+                                                    <button class="text-sm bg-red-500 text-white" mat-flat-button
+                                                        (click)="deleteNotification()">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+
+                                    <mat-paginator
+                                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                                        [ngClass]="{'pointer-events-none': isLoading}" [length]="total"
+                                        [pageSize]="limit" [pageSizeOptions]="[10, 20]" [pageIndex]="pageIndex"
+                                        [showFirstLastButtons]="true" (page)="pageChanged($event)">
+                                    </mat-paginator>
+                                </ng-container>
+                            </ng-container>
+
+                            <ng-container *ngIf="employees && employees === 'error'">
+
+                                <div class="flex flex-col border-t p-8 w-full" *ngIf="!isLoading">
+
+                                    <div class="text-2xl font-semibold tracking-tight text-center">
+                                        Failed Retrieve Data
+                                    </div>
+
+                                    <div class="flex flex-col items-center">
+                                        <button class="mt-4" mat-flat-button [color]="'primary'"
+                                            (click)="searchChanged()">
+                                            Try Again
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </ng-container>
+
+                            <ng-template #noEmployees>
+                                <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">
+                                    No employee found
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>
+
+
+<!-- <div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <mat-drawer-container class="flex-auto h-full bg-card dark:bg-transparent">
+
+        <mat-drawer class="w-full sm:w-128 dark:bg-gray-900" [mode]="drawerMode" [opened]="false" [position]="'end'"
+            [disableClose]="true" #matDrawer>
+            <router-outlet></router-outlet>
+        </mat-drawer>
+
+        <mat-drawer-content class="flex flex-col">
+
+            <ng-container *transloco="let t">
+                <div class="flex flex-col flex-auto">
+
+                </div>
+            </ng-container>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div> -->

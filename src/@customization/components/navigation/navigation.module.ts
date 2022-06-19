@@ -19,6 +19,7 @@ import { CustomizationVerticalNavigationDividerItemComponent } from '@customizat
 import { CustomizationVerticalNavigationGroupItemComponent } from '@customization/components/navigation/vertical/components/group/group.component';
 import { CustomizationVerticalNavigationSpacerItemComponent } from '@customization/components/navigation/vertical/components/spacer/spacer.component';
 import { CustomizationVerticalNavigationComponent } from '@customization/components/navigation/vertical/vertical.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import { CustomizationVerticalNavigationComponent } from '@customization/compone
         MatIconModule,
         MatMenuModule,
         MatTooltipModule,
-        CustomizationScrollbarModule
+        CustomizationScrollbarModule,
+        TranslocoModule
     ],
     exports     : [
         CustomizationHorizontalNavigationComponent,

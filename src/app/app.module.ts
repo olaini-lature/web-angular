@@ -11,6 +11,7 @@ import { appConfig } from 'app/core/config/app.config';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { mockApiServices } from './mock-api';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -29,6 +30,7 @@ const routerConfig: ExtraOptions = {
         // Customization, CustomizationConfig & CustomizationMockAPI
         CustomizationModule,
         CustomizationConfigModule.forRoot(appConfig),
+        CustomizationMockApiModule.forRoot(mockApiServices),
 
         // Core module of your application
         CoreModule,

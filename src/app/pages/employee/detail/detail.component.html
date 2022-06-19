@@ -1,0 +1,105 @@
+<ng-container *transloco="let t">
+
+    <mat-toolbar
+        class="fixed w-128 flex justify-start flex-0 items-center h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card print:hidden">
+        <button mat-flat-button (click)="back()">
+            <mat-icon svgIcon="close"></mat-icon>
+        </button>
+
+        <div class="text-2xl font-bold ml-4" *ngIf="mode === 'add'">
+            {{t('add-employee') | titlecase}}
+        </div>
+        <div class="text-2xl font-bold ml-4" *ngIf="mode === 'view'">
+            {{t('detail-employee') | titlecase}}
+        </div>
+    </mat-toolbar>
+
+    <div class="flex flex-col w-full h-full pt-16 -mb-16 pb-16 overflow-scroll" [formGroup]="employeeForm"
+        *ngIf="employeeForm">
+
+        <div class="flex flex-col flex-auto p-4">
+
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label>Username</mat-label>
+                <input autocomplete="off" matInput placeholder="Username" formControlName="employeeUsername" required
+                    (keypress)="mode === 'add' ? (preventSpace($event)) : ''" [readonly]="mode === 'view'">
+                <mat-error *ngIf="employeeUsername.touched && employeeUsername.hasError('required')">
+                    Username required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label>First Name</mat-label>
+                <input autocomplete="off" matInput placeholder="First Name" formControlName="employeeFirstName" required
+                    [readonly]="mode === 'view'">
+                <mat-error *ngIf="employeeFirstName.touched && employeeFirstName.hasError('required')">
+                    First Name required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label>Last Name</mat-label>
+                <input autocomplete="off" matInput placeholder="Last Name" formControlName="employeeLastName" required
+                    [readonly]="mode === 'view'">
+                <mat-error *ngIf="employeeLastName.touched && employeeLastName.hasError('required')">
+                    Last Name required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label>Email</mat-label>
+                <input autocomplete="off" matInput placeholder="Email" formControlName="employeeEmail" required
+                    [readonly]="mode === 'view'">
+                <mat-error *ngIf="employeeEmail.touched && employeeEmail.hasError('required')">
+                    Email required
+                </mat-error>
+                <mat-error *ngIf="employeeEmail.touched && employeeEmail.hasError('email')">
+                    Email invalid
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label>Birth Date</mat-label>
+                <input autocomplete="off" matInput [matDatepicker]="pickerDob" [max]="maxDate" placeholder="Birth Date"
+                    formControlName="employeeBirthDate" readonly required class="p-0 cursor-pointer"
+                    (click)="mode === 'add' ? (pickerDob.open()) : ''">
+                <mat-datepicker #pickerDob></mat-datepicker>
+                <mat-error *ngIf="employeeBirthDate.touched && employeeBirthDate.hasError('required')">
+                    Birth Date required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label>Basic Salary</mat-label>
+                <input autocomplete="off" matInput placeholder="Basic Salary" formControlName="employeeBasicSalary"
+                    required (keypress)="mode === 'add' ? (onlyNumber()) : ''">
+                <mat-error *ngIf="employeeBasicSalary.touched && employeeBasicSalary.hasError('required')">
+                    Basic Salary required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-select formControlName="employeeGroup" placeholder="Group">
+                    <ng-container *ngIf="groups">
+                        <ng-container *ngFor="let group of groups">
+                            <mat-option [value]="group">
+                                {{ group }}
+                            </mat-option>
+                        </ng-container>
+                    </ng-container>
+                </mat-select>
+                <mat-error *ngIf="employeeGroup.touched && employeeGroup.hasError('required')">
+                    Group required
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+    </div>
+
+    <mat-toolbar *ngIf="employeeForm" [ngClass]="selectedEmployee ? 'justify-between' : 'justify-end'"
+        class="bottom-14 fixed flex flex-0 items-center w-128 h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card print:hidden">
+        <button class="px-8" color="primary" mat-flat-button type="button" [disabled]="employeeForm.invalid">
+            {{ selectedEmployee ? 'OK' : 'Save' }}
+        </button>
+    </mat-toolbar>
+</ng-container>

@@ -29,7 +29,7 @@
                 <!-- Email field -->
                 <mat-form-field class="w-full">
                     <mat-label>Email</mat-label>
-                    <input
+                    <input class="px-2 sm:px-2 md:px-0"
                         id="email"
                         matInput
                         [formControlName]="'email'">
@@ -44,13 +44,13 @@
                 <!-- Password field -->
                 <mat-form-field class="w-full">
                     <mat-label>Password</mat-label>
-                    <input
+                    <input class="px-2 sm:px-2 md:px-0"
                         id="password"
                         matInput
                         type="password"
                         [formControlName]="'password'"
                         #passwordField>
-                    <button
+                    <button class="pr-2 sm:pr-2 md:pr-0"
                         mat-icon-button
                         type="button"
                         (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"

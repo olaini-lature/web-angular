@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { SnackBarService } from './snackbar.service';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -11,6 +12,7 @@ export class AuthService {
 
     constructor(
         private _storageService: StorageService,
+        private _snackBarService: SnackBarService,
         private router: Router
     ) { }
 
@@ -31,5 +33,6 @@ export class AuthService {
     logout(): any {
         this._storageService.clearStorage();
         this.router.navigateByUrl('/login');
+        this._snackBarService.presentSnackBar('Logged Out Successfully');
     }
 }

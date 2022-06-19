@@ -1,0 +1,9 @@
+{
+    "auto": "auto",
+    "light": "light",
+    "dark": "dark",
+    "dashboard": "Dashboard",
+    "master-employee": "Master Karyawan",
+    "add-employee": "Tambah Karyawan",
+    "detail-employee": "Detail Karyawan"
+}

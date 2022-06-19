@@ -23,7 +23,7 @@ export class NoAuthGuard implements CanActivate {
             return true;
         }
 
-        this.router.navigateByUrl('/employees/list');
+        this.router.navigateByUrl('/employee');
         return false;
     }
 
@@ -36,7 +36,7 @@ export class NoAuthGuard implements CanActivate {
             return true;
         }
 
-        this.router.navigateByUrl('/employees/list');
+        this.router.navigateByUrl('/employee');
         return false;
     }
 

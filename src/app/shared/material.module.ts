@@ -31,6 +31,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
 	declarations: [],
@@ -70,7 +71,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 		MatBottomSheetModule,
 		MatTabsModule,
 		MatButtonToggleModule,
-		DragDropModule
+		DragDropModule,
+        MatSnackBarModule
 	]
 })
 export class MaterialModule { }

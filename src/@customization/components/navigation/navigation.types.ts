@@ -4,7 +4,9 @@ export interface CustomizationNavigationItem
 {
     id?: string;
     title?: string;
+    titleTranslated?: string;
     subtitle?: string;
+    subtitleTranslated?: string;
     type:
         | 'aside'
         | 'basic'
@@ -16,6 +18,7 @@ export interface CustomizationNavigationItem
     active?: boolean;
     disabled?: boolean;
     tooltip?: string;
+    tooltipTranslated?: string;
     link?: string;
     externalLink?: boolean;
     target?:
