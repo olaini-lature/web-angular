@@ -25,4 +25,17 @@ export class AuthGuard implements CanActivate {
         this.router.navigateByUrl('/login');
         return false;
     }
+
+    async canActivateChild(): Promise<boolean> {
+
+        const authUser = await this._authService.isLogggedIn();
+
+        if (authUser) {
+            return true;
+        }
+
+        await this._storageService.clearStorage();
+        this.router.navigateByUrl('/login');
+        return false;
+    }
 }

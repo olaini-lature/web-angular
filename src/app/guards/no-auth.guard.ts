@@ -23,7 +23,20 @@ export class NoAuthGuard implements CanActivate {
             return true;
         }
 
-        this.router.navigateByUrl('/login');
+        this.router.navigateByUrl('/employees/list');
+        return false;
+    }
+
+    async canActivateChild(): Promise<boolean> {
+
+        const authUser = await this._authService.isLogggedIn();
+
+        if (!authUser) {
+            await this._storageService.clearStorage();
+            return true;
+        }
+
+        this.router.navigateByUrl('/employees/list');
         return false;
     }
 
