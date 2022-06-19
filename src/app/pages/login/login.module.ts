@@ -4,6 +4,7 @@ import { LoginComponent } from './login.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { loginRoutes } from './login.routing';
 import { RouterModule } from '@angular/router';
+import { CustomizationAlertModule } from '@customization/components/alert';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule.forChild(loginRoutes),
-    SharedModule
+    SharedModule,
+    CustomizationAlertModule
   ]
 })
 export class LoginModule { }

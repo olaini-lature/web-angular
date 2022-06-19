@@ -8,7 +8,7 @@ body customization-splash-screen {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: gold;
+    background-color: lightgray;
     color: #F9FAFB;
     z-index: 999999;
     pointer-events: none;

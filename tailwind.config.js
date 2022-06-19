@@ -429,14 +429,14 @@ const config = {
         zIndex                  : ['responsive']
     },
     corePlugins : {
-        appearance        : false,
-        gradientColorStops: false,
-        container         : false,
-        float             : false,
-        clear             : false,
-        placeholderColor  : false,
-        placeholderOpacity: false,
-        verticalAlign     : false
+        appearance        : true,
+        gradientColorStops: true,
+        container         : true,
+        float             : true,
+        clear             : true,
+        placeholderColor  : true,
+        placeholderOpacity: true,
+        verticalAlign     : true
     },
     plugins     : [
 
